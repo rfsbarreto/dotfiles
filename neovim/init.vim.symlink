@@ -1,0 +1,112 @@
+let need_to_install_plugins = 0
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    "autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    let need_to_install_plugins = 1
+endif
+
+
+call plug#begin('~/.local/share/nvim/plugged')
+
+" Code navigation
+"Plug 'ludovicchabant/vim-gutentags' " create, maintain tags (using universal-ctags)
+Plug 'airblade/vim-gitgutter'
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+Plug 'scrooloose/nerdtree'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'ggreer/the_silver_searcher'
+Plug 'jeetsukumaran/vim-buffergator'
+
+" code helpers:autocompletion, lint and format
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " autocompletion framework
+Plug 'dense-analysis/ale'
+
+" python
+Plug 'zchee/deoplete-jedi' " autocompletion for python
+Plug 'vim-python/python-syntax' " python highlight
+
+" elixir
+Plug 'elixir-editors/vim-elixir' " elixir support
+Plug 'slashmili/alchemist.vim' " autocompletion for elixir
+
+" Themes
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'joshdick/onedark.vim'
+Plug 'itchyny/lightline.vim'
+
+call plug#end()
+
+if need_to_install_plugins == 1
+    echo "Installing plugins..."
+    silent! PlugInstall
+    echo "Done!"
+    q
+endif
+
+" enable 256 colors
+set t_Co=256
+set t_ut=
+
+" Finding files (:find), search down into subfolders, tab-completion
+set path+=**
+
+" turn on line numbering
+set number
+
+" deoplete.nvim, deoplete-jedi
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#jedi#show_docstring = 1
+let g:deoplete#enable_ignore_case = 1
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" tabs
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+
+
+" ale setup
+let g:ale_linters = { 'python': ['flake8'] }
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'python': ['autopep8'],
+\   'elixir': ['mix_format']
+\}
+
+" ale linting
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 1
+
+" ale fixing
+let g:ale_fix_on_save = 1
+
+" nerdtree setup
+nnoremap <silent> <C-k><C-B> :NERDTreeToggle<CR>
+
+" setup theme
+if (has("termguicolors"))
+  set termguicolors
+endif
+
+let g:python_highlight_all = 1
+syntax on
+
+colorscheme onedark
+let g:lightline = { 'colorscheme': 'onedark' }
+
+set updatetime=250
+
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif

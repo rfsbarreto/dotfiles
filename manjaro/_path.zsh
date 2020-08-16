@@ -1,0 +1,1 @@
+export PATH="/home/pharol/.asdf/shims:/opt/asdf-vm/bin:/home/pharol/.local/bin:/opt/google-cloud-sdk/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/var/lib/snapd/snap/bin:$PATH"
