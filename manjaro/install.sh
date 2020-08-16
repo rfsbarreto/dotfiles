@@ -1,15 +1,25 @@
-pamac install brave vivaldi google-chrome mailspring --noconfirm
+pamac build --no-confirm vivaldi google-chrome mailspring
 
-pamac install discord slack-desktop zoom telegram-desktop --noconfirm
+pamac build --no-confirm slack-desktop zoom
 
-pamac install zsh zsh-completions oh-my-zsh-git --noconfirm
+pamac install --no-confirm discord zsh the_silver_searcher  telegram-desktop zsh-completions neofetch tig
 
-pamac install neovim the_silver_searcher --noconfirm
+pamac build --no-confirm  oh-my-zsh-git
 
-pamac install asdf-vm postman --noconfirm
+pamac build --no-confirm neovim
 
-pamac install mellowplayer spotify --noconfirm
+pamac build --no-confirm asdf-vm postman
 
-pamac install google-cloud-sdk --noconfirm
+curl -sS https://download.spotify.com/debian/pubkey.gpg | gpg --import -
 
-pamac isntall neofetch qbittorrent authy wine tig --noconfirm
+pamac build --no-confirm mellowplayer spotify
+
+pamac build --no-confirm google-cloud-sdk
+
+pamac install --no-confirm qbittorrent wine
+
+
+pip install --user neovim
+
+
+chsh -s $(which zsh)
